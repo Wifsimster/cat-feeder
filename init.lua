@@ -1,5 +1,4 @@
-AP = "yourWifiAP"
-PWD = "yourWifipassword"
+require('config')
 
 -- Setup wifi
 wifi.setmode(wifi.STATION)
