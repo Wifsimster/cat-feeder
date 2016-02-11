@@ -1,0 +1,50 @@
+- Nom du scénario : Distributeur
+- Objet parent : Salon
+- Mode du scénario : schedule
+    - Programmation : 45 6 * * *
+    - Programmation : 0 12 * * *
+    - Programmation : 0 20 * * *
+
+Le distributeur met 270secs pour descendre totalement. Il peut donc monter 27 fois pendant 10secs. Lorsque les 27 montées (distribution de croquettes) sont atteintes, le distributeur se remet en position base en attente de remplissage.
+
+    
+    SI variable(DOSE, 0) <= 27
+    ALORS
+     (variable) Affectation de la variable : DOSE à variable(DOSE, 0) + 1
+     #[Salon][Distributeur][UP]# - Options : Array
+    (
+        [enable] => 1
+    )
+    
+     (sleep) Pause de  : 10
+     #[Salon][Distributeur][STOP]# - Options : Array
+    (
+        [enable] => 1
+    )
+    
+    SINON
+     #[Salon][Distributeur][DOWN]# - Options : Array
+    (
+        [enable] => 1
+    )
+    
+     (sleep) Pause de  : 270
+     #[Salon][Distributeur][STOP]# - Options : Array
+    (
+        [enable] => 1
+    )
+    
+     (variable) Affectation de la variable : DOSE à 0
+     #[Maison][Pushbullet - Hélène][Motorola MotoG3]# - Options : Array
+    (
+        [enable] => 1
+        [title] => Maison
+        [message] => Crumble : Des croquettes maman !!!
+    )
+    
+     #[Damien][Pushbullet - Damien][Tous les devices]# - Options : Array
+    (
+        [enable] => 1
+        [title] => Maison
+        [message] => Remplir le distributeur
+    )
